@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content';
 const allApps = (await getCollection('apps'))
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 
+// Category filter options - must match the enum in src/content/config.ts
 const categories = ['all', 'productivity', 'utility', 'developer', 'other'] as const;
 ---
 
