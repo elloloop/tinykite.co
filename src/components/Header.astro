@@ -8,7 +8,10 @@ const currentPath = Astro.url.pathname;
   <nav class="container mx-auto px-4 py-4">
     <div class="flex items-center justify-between">
       <a href="/" class="flex items-center space-x-2">
-        <span class="text-2xl font-bold text-primary">TinyKite</span>
+        <svg class="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2L3 9v2l9 7 9-7V9l-9-7zm0 2.828L18.172 10 12 14.172 5.828 10 12 4.828zM12 16l-7-5.5v7.672L12 22l7-3.828V10.5L12 16z"/>
+        </svg>
+        <span class="text-xl font-bold text-gray-900 dark:text-white">TinyKite</span>
       </a>
       
       <div class="hidden md:flex items-center space-x-8">
@@ -19,16 +22,7 @@ const currentPath = Astro.url.pathname;
             currentPath === "/" ? "text-primary font-medium" : ""
           ]}
         >
-          Home
-        </a>
-        <a 
-          href="/apps" 
-          class:list={[
-            "hover:text-primary transition-colors",
-            currentPath.startsWith("/apps") ? "text-primary font-medium" : ""
-          ]}
-        >
-          Apps
+          Ecosystem
         </a>
         <a 
           href="/blog" 
@@ -37,7 +31,7 @@ const currentPath = Astro.url.pathname;
             currentPath.startsWith("/blog") ? "text-primary font-medium" : ""
           ]}
         >
-          Blog
+          Innovation
         </a>
         <a 
           href="/about" 
@@ -49,17 +43,20 @@ const currentPath = Astro.url.pathname;
           About
         </a>
         <a 
-          href="/changelog" 
+          href="/blog" 
           class:list={[
             "hover:text-primary transition-colors",
-            currentPath === "/changelog" ? "text-primary font-medium" : ""
+            currentPath.startsWith("/blog") ? "text-primary font-medium" : ""
           ]}
         >
-          Changelog
+          Blog
         </a>
       </div>
 
       <div class="flex items-center space-x-4">
+        <a href="/about" class="hidden md:inline-block px-6 py-2 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
+          Join Us
+        </a>
         <ThemeToggle />
         <button 
           id="mobile-menu-toggle"
@@ -74,11 +71,13 @@ const currentPath = Astro.url.pathname;
     </div>
 
     <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
-      <a href="/" class="block py-2 hover:text-primary transition-colors">Home</a>
-      <a href="/apps" class="block py-2 hover:text-primary transition-colors">Apps</a>
-      <a href="/blog" class="block py-2 hover:text-primary transition-colors">Blog</a>
+      <a href="/" class="block py-2 hover:text-primary transition-colors">Ecosystem</a>
+      <a href="/blog" class="block py-2 hover:text-primary transition-colors">Innovation</a>
       <a href="/about" class="block py-2 hover:text-primary transition-colors">About</a>
-      <a href="/changelog" class="block py-2 hover:text-primary transition-colors">Changelog</a>
+      <a href="/blog" class="block py-2 hover:text-primary transition-colors">Blog</a>
+      <a href="/about" class="block py-2 px-4 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-lg hover:opacity-90 transition-opacity text-center">
+        Join Us
+      </a>
     </div>
   </nav>
 </header>
