@@ -90,18 +90,19 @@ import { apps } from "../data/apps";
             </p>
 
             <!-- App Store Badges -->
-            <div class="flex justify-center gap-4 mb-6">
+            <div class="flex justify-center gap-4 mb-6 relative z-10">
               <a
                 id="appstore-link"
                 href="https://apps.apple.com/app/community-hub"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="transform hover:scale-105 transition-transform"
+                class="transform hover:scale-105 transition-transform block"
               >
                 <img
                   src="/app-store-badge.svg"
                   alt="Download on App Store"
-                  class="h-12"
+                  class="h-12 w-auto block"
+                  loading="eager"
                 />
               </a>
               <a
@@ -109,12 +110,13 @@ import { apps } from "../data/apps";
                 href="https://play.google.com/store/apps/details?id=com.tinykite.communityhub"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="transform hover:scale-105 transition-transform"
+                class="transform hover:scale-105 transition-transform block"
               >
                 <img
                   src="/google-play-badge.svg"
                   alt="Get it on Google Play"
-                  class="h-12"
+                  class="h-12 w-auto block"
+                  loading="eager"
                 />
               </a>
             </div>
@@ -261,7 +263,7 @@ import { apps } from "../data/apps";
                 <img
                   src="/app-store-badge.svg"
                   alt="Download on App Store"
-                  class="h-10"
+                  class="h-10 w-auto"
                 />
               </a>
               <a
@@ -274,7 +276,7 @@ import { apps } from "../data/apps";
                 <img
                   src="/google-play-badge.svg"
                   alt="Get it on Google Play"
-                  class="h-10"
+                  class="h-10 w-auto"
                 />
               </a>
             </div>
