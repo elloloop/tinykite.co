@@ -4,7 +4,6 @@ import { apps } from "../data/apps";
 ---
 
 <Layout title="TinyKite - We innovate. We build. We connect.">
-  <!-- Single Screen Hero - Fixed Height, No Page Scroll -->
   <div
     class="fixed inset-0 overflow-hidden bg-background dark:bg-background-dark"
   >
@@ -13,10 +12,7 @@ import { apps } from "../data/apps";
       <div class="grid grid-cols-3 gap-12 items-center max-w-7xl w-full">
         <!-- Left Phone - iPhone -->
         <div class="flex flex-col items-center justify-center">
-          <div
-            class="relative w-72 h-[600px] bg-gray-900 rounded-[3rem] p-3 shadow-2xl"
-          >
-            <!-- iPhone Notch -->
+          <div class="relative w-72 h-[600px] bg-gray-900 rounded-[3rem] p-3 shadow-2xl overflow-hidden transition-all duration-700">
             <div
               class="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-gray-900 rounded-b-3xl z-10"
             ></div>
@@ -24,23 +20,22 @@ import { apps } from "../data/apps";
             <!-- Phone Screen -->
             <div
               id="iphone-screen"
-              class="relative w-full h-full bg-white rounded-[2.5rem] overflow-hidden"
+              class="relative w-full h-full rounded-[2.5rem] overflow-hidden"
+              style="background-color: #4F46E5;"
             >
               <div
-                class="h-full overflow-y-auto snap-y snap-mandatory scrollbar-hide"
+                class="h-full overflow-y-auto snap-y snap-mandatory scrollbar-hide relative"
                 id="phone-scroll-container"
               >
                 {
                   apps.map((app) => (
                     <div
-                      class="h-full snap-start relative"
+                      class="h-full snap-start relative flex items-center justify-center"
                       data-app-id={app.id}
                     >
-                      <img
-                        src={app.screenshot}
-                        alt={`${app.name} screenshot`}
-                        class="w-full h-full object-cover"
-                      />
+                      <p class="relative z-10 text-white text-xl font-semibold drop-shadow-md">
+                        {app.name}
+                      </p>
                     </div>
                   ))
                 }
@@ -90,10 +85,10 @@ import { apps } from "../data/apps";
             </p>
 
             <!-- App Store Badges -->
-            <div class="flex justify-center gap-4 mb-6 relative z-10">
+            <div class="flex justify-center gap-3 mb-6">
               <a
                 id="appstore-link"
-                href="https://apps.apple.com/app/community-hub"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="transform hover:scale-105 transition-transform block"
@@ -101,13 +96,13 @@ import { apps } from "../data/apps";
                 <img
                   src="/app-store-badge.svg"
                   alt="Download on App Store"
-                  class="h-12 w-auto block"
+                  class="h-[64px] w-auto object-contain"
                   loading="eager"
                 />
               </a>
               <a
                 id="playstore-link"
-                href="https://play.google.com/store/apps/details?id=com.tinykite.communityhub"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="transform hover:scale-105 transition-transform block"
@@ -115,13 +110,12 @@ import { apps } from "../data/apps";
                 <img
                   src="/google-play-badge.svg"
                   alt="Get it on Google Play"
-                  class="h-12 w-auto block"
+                  class="h-[56px] w-auto object-contain"
                   loading="eager"
                 />
               </a>
             </div>
 
-            <!-- CTA Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/apps"
@@ -160,35 +154,30 @@ import { apps } from "../data/apps";
 
         <!-- Right Phone - Android -->
         <div class="flex flex-col items-center justify-center">
-          <div
-            class="relative w-72 h-[600px] bg-gray-900 rounded-[2.5rem] p-3 shadow-2xl"
-          >
-            <!-- Phone Screen -->
+          <div class="relative w-72 h-[600px] bg-gray-900 rounded-[2.5rem] p-3 shadow-2xl overflow-hidden transition-all duration-700">
             <div
               id="android-screen"
-              class="relative w-full h-full bg-white rounded-[2rem] overflow-hidden"
+              class="relative w-full h-full rounded-[2rem] overflow-hidden"
+              style="background-color: #4F46E5;"
             >
               <div
-                class="h-full overflow-y-auto snap-y snap-mandatory scrollbar-hide"
+                class="h-full overflow-y-auto snap-y snap-mandatory scrollbar-hide relative"
                 id="phone-scroll-container-android"
               >
                 {
                   apps.map((app) => (
                     <div
-                      class="h-full snap-start relative"
+                      class="h-full snap-start relative flex items-center justify-center"
                       data-app-id={app.id}
                     >
-                      <img
-                        src={app.screenshot}
-                        alt={`${app.name} screenshot`}
-                        class="w-full h-full object-cover"
-                      />
+                      <p class="relative z-10 text-white text-xl font-semibold drop-shadow-md">
+                        {app.name}
+                      </p>
                     </div>
                   ))
                 }
               </div>
             </div>
-            <!-- Android Navigation Bar -->
             <div
               class="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-gray-700 rounded-full"
             ></div>
@@ -322,17 +311,13 @@ import { apps } from "../data/apps";
   </div>
 </Layout>
 
-<!-- ✅ Fixed Script -->
+<!-- ✅ Smooth Scroll + Color Transition Script -->
 <script define:vars={{ apps }}>
   const appsData = apps;
   let currentAppIndex = 0;
-  let scrollTimeout;
+  let isAnimating = false;
 
-  function updateAppContent(appId) {
-    const app = appsData.find((a) => a.id === appId);
-    if (!app) return;
-
-    // Desktop content
+  function updateAppContent(app) {
     document.getElementById("app-title").textContent = app.name;
     document.getElementById("app-description").textContent = app.description;
     document.getElementById("appstore-link").href = app.appStoreUrl;
@@ -340,69 +325,48 @@ import { apps } from "../data/apps";
     document.getElementById("iphone-label").textContent = app.name;
     document.getElementById("android-label").textContent = app.name;
 
-    // Mobile content
-    document.getElementById("app-title-mobile").textContent = app.name;
-    document.getElementById("app-description-mobile").textContent = app.description;
-    document.getElementById("appstore-link-mobile").href = app.appStoreUrl;
-    document.getElementById("playstore-link-mobile").href = app.playStoreUrl;
-
-    // Indicators
-    document.querySelectorAll("[data-indicator]").forEach((indicator, index) => {
-      if (index === appId - 1) {
-        indicator.classList.add("bg-gray-900", "dark:bg-white");
-        indicator.classList.remove("bg-gray-300", "dark:bg-gray-600");
-      } else {
-        indicator.classList.remove("bg-gray-900", "dark:bg-white");
-        indicator.classList.add("bg-gray-300", "dark:bg-gray-600");
+    // 🎨 Smooth background color transition using Web Animations API
+    const iphoneScreen = document.getElementById("iphone-screen");
+    const androidScreen = document.getElementById("android-screen");
+    [iphoneScreen, androidScreen].forEach((el) => {
+      if (el) {
+        el.animate(
+          [
+            { backgroundColor: el.style.backgroundColor },
+            { backgroundColor: app.bgColor }
+          ],
+          { duration: 800, easing: "ease-in-out", fill: "forwards" }
+        );
       }
     });
+  }
+
+  function scrollToApp(appId) {
+    const iphoneContainer = document.getElementById("phone-scroll-container");
+    const androidContainer = document.getElementById("phone-scroll-container-android");
+    const iphoneTarget = iphoneContainer?.querySelector(`[data-app-id="${appId}"]`);
+    const androidTarget = androidContainer?.querySelector(`[data-app-id="${appId}"]`);
+    iphoneTarget?.scrollIntoView({ behavior: "smooth", block: "start" });
+    androidTarget?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   function handleWheel(e) {
-    e.preventDefault();
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      if (e.deltaY > 0 && currentAppIndex < appsData.length - 1) {
-        currentAppIndex++;
-      } else if (e.deltaY < 0 && currentAppIndex > 0) {
-        currentAppIndex--;
-      } else return;
+    if (isAnimating) return;
+    isAnimating = true;
 
-      const appId = appsData[currentAppIndex].id;
-      const iphoneContainer = document.getElementById("phone-scroll-container");
-      const androidContainer = document.getElementById("phone-scroll-container-android");
-
-      iphoneContainer?.querySelector(`[data-app-id="${appId}"]`)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      androidContainer?.querySelector(`[data-app-id="${appId}"]`)?.scrollIntoView({ behavior: "smooth", block: "start" });
-
-      updateAppContent(appId);
-    }, 100);
-  }
-
-  function detectVisibleApp(container) {
-    const containerRect = container.getBoundingClientRect();
-    const containerCenter = containerRect.top + containerRect.height / 2;
-
-    let closestApp = null;
-    let closestDistance = Infinity;
-    container.querySelectorAll("[data-app-id]").forEach((element) => {
-      const rect = element.getBoundingClientRect();
-      const elementCenter = rect.top + rect.height / 2;
-      const distance = Math.abs(elementCenter - containerCenter);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestApp = element.getAttribute("data-app-id");
-      }
-    });
-    return closestApp ? parseInt(closestApp) : null;
-  }
-
-  function handlePhoneScroll(container) {
-    const visibleAppId = detectVisibleApp(container);
-    if (visibleAppId && visibleAppId !== appsData[currentAppIndex].id) {
-      currentAppIndex = appsData.findIndex((a) => a.id === visibleAppId);
-      updateAppContent(visibleAppId);
+    if (e.deltaY > 0 && currentAppIndex < appsData.length - 1) currentAppIndex++;
+    else if (e.deltaY < 0 && currentAppIndex > 0) currentAppIndex--;
+    else {
+      isAnimating = false;
+      return;
     }
+
+    const app = appsData[currentAppIndex];
+    scrollToApp(app.id);
+    updateAppContent(app);
+
+    // Unlock next animation after transition
+    setTimeout(() => (isAnimating = false), 900);
   }
 
   if (typeof window !== "undefined") {
@@ -450,11 +414,42 @@ import { apps } from "../data/apps";
 </script>
 
 <style>
+  html {
+    scroll-behavior: smooth;
+  }
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  #phone-scroll-container,
+  #phone-scroll-container-android {
+    scroll-behavior: smooth;
+    transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  /* Store Badge Fix */
+  .store-badge {
+    height: 3.5rem;
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
+  .store-badge.appstore {
+    transform: scale(1.15);
+    transform-origin: center;
+  }
+  @media (max-width: 768px) {
+    .store-badge {
+      height: 2.8rem;
+    }
+    .store-badge.appstore {
+      transform: scale(1.18);
+    }
   }
 </style>
