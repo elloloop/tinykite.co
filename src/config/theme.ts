@@ -41,6 +41,7 @@ export const theme = {
   fontFamily: {
     // Sans-serif font stack (default)
     sans: [
+      'Nunito Sans',
       'Inter',
       'system-ui',
       '-apple-system',

@@ -12,17 +12,31 @@
     --color-primary: #4F46E5;
     --color-background: #ffffff;
     --color-foreground: #111111;
+
+    /* Global font variables */
+    --font-body: "Nunito Sans", system-ui, sans-serif;
+    --font-heading: "Nunito Sans", system-ui, sans-serif;
   }
 
   .dark {
-    /* See note above about CSS custom properties and centralized theme */
     --color-primary: #4F46E5;
     --color-background: #111111;
     --color-foreground: #ffffff;
   }
 
+  html, body {
+    font-family: var(--font-body);
+  }
+
   body {
     @apply bg-white dark:bg-dark text-gray-900 dark:text-gray-100 transition-colors duration-200;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.01em;
   }
 }
 
