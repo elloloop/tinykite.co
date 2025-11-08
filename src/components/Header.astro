@@ -1,117 +1,141 @@
 ---
-import ThemeToggle from "./ThemeToggle.astro";
-
-const currentPath = Astro.url.pathname;
 ---
-
 <header
-  class="sticky top-0 z-50 bg-white/80 dark:bg-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-dark-light"
+  id="site-header"
+  class="fixed top-0.5 left-1/2 -translate-x-1/2 w-[90%] md:w-[80%] lg:w-[75%] z-50 
+         bg-black/30 backdrop-blur-xl border border-white/10 rounded-full 
+         transition-all duration-500 ease-in-out opacity-0 translate-y-[-10px] shadow-lg"
 >
-  <nav class="container mx-auto px-4 py-4">
-    <div class="flex items-center justify-between">
-      <a href="/" class="flex items-center space-x-2">
-        <img src="/tinykite-logo.svg" alt="TinyKite Logo" class="w-6 h-6" />
-        <span class="text-xl font-bold text-gray-900 dark:text-white"
-          >TinyKite</span
-        >
-      </a>
+  <div class="flex items-center justify-between px-6 py-3">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2">
+      <img src="/favicon.svg" alt="TinyKite logo" class="w-5 h-5" />
+      <span class="text-white font-semibold text-lg">TinyKite</span>
+    </a>
 
-      <div class="hidden md:flex items-center space-x-8">
-        <a
-          href="/"
-          class:list={[
-            "hover:text-primary transition-colors",
-            currentPath === "/" ? "text-primary font-medium" : "",
-          ]}
-        >
-          Ecosystem
-        </a>
-        <a
-          href="/blog"
-          class:list={[
-            "hover:text-primary transition-colors",
-            currentPath.startsWith("/blog") ? "text-primary font-medium" : "",
-          ]}
-        >
-          Innovation
-        </a>
-        <a
-          href="/about"
-          class:list={[
-            "hover:text-primary transition-colors",
-            currentPath === "/about" ? "text-primary font-medium" : "",
-          ]}
-        >
-          About
-        </a>
-        <a
-          href="/blog"
-          class:list={[
-            "hover:text-primary transition-colors",
-            currentPath.startsWith("/blog") ? "text-primary font-medium" : "",
-          ]}
-        >
-          Blog
-        </a>
-      </div>
+    <!-- Navigation Links -->
+    <nav class="hidden md:flex items-center gap-8 text-gray-300 text-sm font-medium">
+      <a href="/ecosystem" class="hover:text-white transition">Ecosystem</a>
+      <a href="/innovation" class="hover:text-white transition">Innovation</a>
+      <a href="/about" class="hover:text-white transition">About</a>
+      <a href="/blog" class="hover:text-white transition">Blog</a>
+    </nav>
 
-      <div class="flex items-center space-x-4">
-        <a
-          href="/about"
-          class="hidden md:inline-block px-6 py-2 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-lg hover:opacity-90 transition-opacity"
-        >
-          Join Us
-        </a>
-        <ThemeToggle />
-        <button
-          id="mobile-menu-toggle"
-          class="md:hidden p-2 rounded-lg bg-gray-200 dark:bg-dark-light"
-          aria-label="Toggle menu"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
-      <a href="/" class="block py-2 hover:text-primary transition-colors"
-        >Ecosystem</a
-      >
-      <a href="/blog" class="block py-2 hover:text-primary transition-colors"
-        >Innovation</a
-      >
-      <a href="/about" class="block py-2 hover:text-primary transition-colors"
-        >About</a
-      >
-      <a href="/blog" class="block py-2 hover:text-primary transition-colors"
-        >Blog</a
-      >
+    <!-- Right Actions -->
+    <div class="flex items-center gap-3">
       <a
-        href="/about"
-        class="block py-2 px-4 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-lg hover:opacity-90 transition-opacity text-center"
+        href="/join"
+        class="px-5 py-2.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-500 
+               hover:from-blue-700 hover:to-indigo-600 text-white font-medium text-sm 
+               shadow-md transition-all"
       >
         Join Us
       </a>
+
+      <!-- Theme toggle button -->
+      <button
+        id="theme-toggle"
+        type="button"
+        class="flex items-center justify-center p-2.5 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white"
+        aria-label="Toggle color theme"
+        aria-pressed="false"
+      >
+        <!-- Moon icon (dark) -->
+        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M17.293 13.293A8 8 0 116.707 2.707a7 7 0 0010.586 10.586z"></path>
+        </svg>
+
+        <!-- Sun icon (light) -->
+        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M12 3v2m0 14v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+        </svg>
+      </button>
     </div>
-  </nav>
+  </div>
+
+  <!-- Header Script -->
+  <script>
+    (function () {
+      const header = document.getElementById('site-header');
+
+      // Fade-in on load
+      window.addEventListener('load', () => {
+        header.classList.remove('opacity-0', 'translate-y-[-10px]');
+        header.classList.add('opacity-100', 'translate-y-0');
+      });
+
+      // Hide on scroll down, show on scroll up + solidify background
+      let lastScrollY = window.scrollY;
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        if (scrollY > lastScrollY && scrollY > 100) {
+          header.classList.add('-translate-y-full');
+        } else {
+          header.classList.remove('-translate-y-full');
+        }
+
+        if (scrollY > 60) {
+          header.classList.add('bg-black/80', 'backdrop-blur-lg', 'shadow-xl');
+          header.classList.remove('bg-black/30', 'backdrop-blur-xl');
+        } else {
+          header.classList.add('bg-black/30', 'backdrop-blur-xl');
+          header.classList.remove('bg-black/80', 'backdrop-blur-lg', 'shadow-xl');
+        }
+
+        lastScrollY = scrollY;
+      });
+
+      // THEME TOGGLE
+      const toggle = document.getElementById('theme-toggle');
+      const iconMoon = document.getElementById('icon-moon');
+      const iconSun = document.getElementById('icon-sun');
+
+      function applyTheme(theme) {
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        toggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+
+        if (theme === 'dark') {
+          iconMoon.classList.remove('hidden');
+          iconSun.classList.add('hidden');
+        } else {
+          iconSun.classList.remove('hidden');
+          iconMoon.classList.add('hidden');
+        }
+      }
+
+      function getStoredTheme() {
+        try { return localStorage.getItem('theme'); } catch { return null; }
+      }
+
+      function setStoredTheme(theme) {
+        try { localStorage.setItem('theme', theme); } catch {}
+      }
+
+      (function initThemeToggle() {
+        const stored = getStoredTheme();
+        if (stored === 'dark' || stored === 'light') {
+          applyTheme(stored);
+        } else {
+          const isDark = document.documentElement.classList.contains('dark');
+          applyTheme(isDark ? 'dark' : 'light');
+        }
+      })();
+
+      toggle.addEventListener('click', () => {
+        const currentlyDark = document.documentElement.classList.contains('dark');
+        const nextTheme = currentlyDark ? 'light' : 'dark';
+        applyTheme(nextTheme);
+        setStoredTheme(nextTheme);
+      });
+
+      try {
+        const mql = window.matchMedia('(prefers-color-scheme: dark)');
+        mql.addEventListener?.('change', (e) => {
+          const stored = getStoredTheme();
+          if (!stored) applyTheme(e.matches ? 'dark' : 'light');
+        });
+      } catch {}
+    })();
+  </script>
 </header>
-
-<script>
-  const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
-  const mobileMenu = document.getElementById("mobile-menu");
-
-  mobileMenuToggle?.addEventListener("click", () => {
-    mobileMenu?.classList.toggle("hidden");
-  });
-</script>
