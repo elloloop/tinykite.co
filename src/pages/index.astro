@@ -322,16 +322,19 @@ import { apps } from "../data/apps";
 </Layout>
 
 <script define:vars={{ apps }}>
-  // App data for dynamic updates
-  const appsData = apps;
+  const appsData = apps || [];
   let currentAppIndex = 0;
 
-  // Update center content based on current app
-  function updateAppContent(appId) {
-    const app = appsData.find((a) => a.id === appId);
-    if (!app) return;
+  // Utility to get app index safely by id (returns -1 if not found)
+  function indexForAppId(appId) {
+    return appsData.findIndex((a) => a.id === appId);
+  }
 
-    // Update desktop content
+  function updateAppContentByIndex(index) {
+    if (index < 0 || index >= appsData.length) return;
+    const app = appsData[index];
+
+    // Desktop elements
     const titleEl = document.getElementById("app-title");
     const descEl = document.getElementById("app-description");
     const appStoreLink = document.getElementById("appstore-link");
@@ -341,107 +344,139 @@ import { apps } from "../data/apps";
 
     if (titleEl) titleEl.textContent = app.name;
     if (descEl) descEl.textContent = app.description;
-    if (appStoreLink) appStoreLink.href = app.appStoreUrl;
-    if (playStoreLink) playStoreLink.href = app.playStoreUrl;
+    if (appStoreLink && app.appStoreUrl) appStoreLink.href = app.appStoreUrl;
+    if (playStoreLink && app.playStoreUrl) playStoreLink.href = app.playStoreUrl;
     if (iphoneLabel) iphoneLabel.textContent = app.name;
     if (androidLabel) androidLabel.textContent = app.name;
 
-    // Update mobile content
+    // Mobile elements
     const titleMobile = document.getElementById("app-title-mobile");
     const descMobile = document.getElementById("app-description-mobile");
     const appStoreLinkMobile = document.getElementById("appstore-link-mobile");
-    const playStoreLinkMobile = document.getElementById(
-      "playstore-link-mobile"
-    );
+    const playStoreLinkMobile = document.getElementById("playstore-link-mobile");
 
     if (titleMobile) titleMobile.textContent = app.name;
     if (descMobile) descMobile.textContent = app.description;
-    if (appStoreLinkMobile) appStoreLinkMobile.href = app.appStoreUrl;
-    if (playStoreLinkMobile) playStoreLinkMobile.href = app.playStoreUrl;
+    if (appStoreLinkMobile && app.appStoreUrl) appStoreLinkMobile.href = app.appStoreUrl;
+    if (playStoreLinkMobile && app.playStoreUrl) playStoreLinkMobile.href = app.playStoreUrl;
 
-    // Update mobile indicators
+    // Indicators: compare by index (not by id)
     const indicators = document.querySelectorAll("[data-indicator]");
-    indicators.forEach((indicator, index) => {
-      if (index === appId - 1) {
-        indicator.classList.remove("bg-gray-300", "dark:bg-gray-600");
-        indicator.classList.add("bg-gray-900", "dark:bg-white");
-      } else {
-        indicator.classList.remove("bg-gray-900", "dark:bg-white");
-        indicator.classList.add("bg-gray-300", "dark:bg-gray-600");
-      }
-    });
+  if (!indicators || indicators.length === 0) return;
+
+  // sanity: warn if counts mismatch with slides
+  const iphoneContainer = document.getElementById("phone-scroll-container");
+  if (iphoneContainer && indicators.length !== iphoneContainer.children.length) {
+    console.warn("tinykite: indicator/slide count mismatch", indicators.length, iphoneContainer.children.length);
   }
 
-  // Handle scroll wheel for cycling through apps
+  indicators.forEach((indicator, idx) => {
+    if (idx === index) {
+      indicator.classList.remove("bg-gray-300", "dark:bg-gray-600");
+      indicator.classList.add("bg-gray-900", "dark:bg-white");
+    } else {
+      indicator.classList.remove("bg-gray-900", "dark:bg-white");
+      indicator.classList.add("bg-gray-300", "dark:bg-gray-600");
+    }
+  });
+  }
+
+  // Scroll both phone containers to a given index (smooth)
+  function scrollPhonesToIndex(index) {
+  if (typeof index !== "number" || index < 0) return;
+
+  const iphoneContainer = document.getElementById("phone-scroll-container");
+  const androidContainer = document.getElementById("phone-scroll-container-android");
+
+  // Defensive: ensure children exist
+  const iphoneChild = iphoneContainer?.children?.[index];
+  const androidChild = androidContainer?.children?.[index];
+
+  if (!iphoneChild && !androidChild) {
+    console.warn("tinykite: no slide found at index", index, {
+      iphoneChildren: iphoneContainer?.children?.length,
+      androidChildren: androidContainer?.children?.length
+    });
+    return;
+  }
+
+  // Preferred: use scrollTo for consistent behavior if you control slide height
+  if (iphoneContainer && iphoneChild) {
+    // smooth scroll to the child's offsetTop relative to container
+    iphoneContainer.scrollTo({ top: iphoneChild.offsetTop, behavior: "smooth" });
+  } else if (iphoneChild) {
+    iphoneChild.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  if (androidContainer && androidChild) {
+    androidContainer.scrollTo({ top: androidChild.offsetTop, behavior: "smooth" });
+  } else if (androidChild) {
+    androidChild.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+  // Wheel + touch handling (debounced-ish)
   let scrollTimeout;
   function handleWheel(e) {
+    // prevent default only if we can handle movement (avoid locking page scrolling)
+    if (!appsData.length) return;
     e.preventDefault();
 
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       if (e.deltaY > 0 && currentAppIndex < appsData.length - 1) {
-        // Scroll down - next app
         currentAppIndex++;
       } else if (e.deltaY < 0 && currentAppIndex > 0) {
-        // Scroll up - previous app
         currentAppIndex--;
       } else {
         return;
       }
 
-      const appId = appsData[currentAppIndex].id;
-
-      // Scroll both phone containers
-      const iphoneContainer = document.getElementById("phone-scroll-container");
-      const androidContainer = document.getElementById(
-        "phone-scroll-container-android"
-      );
-
-      if (iphoneContainer) {
-        const targetScroll =
-          iphoneContainer.children[0].children[currentAppIndex];
-        if (targetScroll) {
-          targetScroll.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }
-
-      if (androidContainer) {
-        const targetScroll =
-          androidContainer.children[0].children[currentAppIndex];
-        if (targetScroll) {
-          targetScroll.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }
-
-      updateAppContent(appId);
+      scrollPhonesToIndex(currentAppIndex);
+      updateAppContentByIndex(currentAppIndex);
     }, 50);
   }
 
-  // Add wheel event listener
   if (typeof window !== "undefined") {
+    // initialize UI
+    updateAppContentByIndex(currentAppIndex);
+
+    // Wheel
     window.addEventListener("wheel", handleWheel, { passive: false });
 
-    // Also handle touch swipe on mobile
+    // Touch swipe
     let touchStartY = 0;
     window.addEventListener("touchstart", (e) => {
-      touchStartY = e.touches[0].clientY;
+      touchStartY = e.touches?.[0]?.clientY || 0;
     });
 
     window.addEventListener("touchmove", (e) => {
-      const touchY = e.touches[0].clientY;
+      if (!appsData.length) return;
+      const touchY = e.touches?.[0]?.clientY || 0;
       const diff = touchStartY - touchY;
 
       if (Math.abs(diff) > 50) {
         if (diff > 0 && currentAppIndex < appsData.length - 1) {
           currentAppIndex++;
-          updateAppContent(appsData[currentAppIndex].id);
-          touchStartY = touchY;
+          scrollPhonesToIndex(currentAppIndex);
+          updateAppContentByIndex(currentAppIndex);
         } else if (diff < 0 && currentAppIndex > 0) {
           currentAppIndex--;
-          updateAppContent(appsData[currentAppIndex].id);
-          touchStartY = touchY;
+          scrollPhonesToIndex(currentAppIndex);
+          updateAppContentByIndex(currentAppIndex);
         }
+        touchStartY = touchY;
       }
+    });
+
+    // Optional: click indicators to jump to app (if you want)
+    const indicators = document.querySelectorAll("[data-indicator]");
+    indicators.forEach((indicator, idx) => {
+      indicator.addEventListener("click", () => {
+        currentAppIndex = idx;
+        scrollPhonesToIndex(currentAppIndex);
+        updateAppContentByIndex(currentAppIndex);
+      });
     });
   }
 </script>
