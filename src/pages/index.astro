@@ -95,6 +95,7 @@ import { apps } from "../data/apps";
     <!-- App store badges -->
     <div class="flex justify-center items-center gap-2 mb-2 relative z-10 flex-wrap">
   <a
+    id="appstore-link"
     href="https://apps.apple.com/app/community-hub"
     target="_blank"
     rel="noopener noreferrer"
@@ -113,6 +114,7 @@ import { apps } from "../data/apps";
     
   </a>
   <a
+    id="playstore-link"
     href="https://play.google.com/store/apps/details?id=com.tinykite.communityhub"
     target="_blank"
     rel="noopener noreferrer"
@@ -135,6 +137,7 @@ import { apps } from "../data/apps";
     <!-- CTA Buttons: stacked on small, two columns on md+ -->
     <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 items-stretch">
       <a
+        
         href="/apps"
         class="flex items-center justify-center px-3 py-1 rounded-lg font-semibold text-white bg-gradient-to-r from-primary to-secondary shadow-md hover:opacity-95 transition-opacity
                w-full h-full"
@@ -273,43 +276,45 @@ import { apps } from "../data/apps";
 
             <!-- App Store Badges -->
             <div class="flex justify-center items-center gap-1 mb-6 relative z-10 flex-wrap">
-  <a
-    href="https://apps.apple.com/app/community-hub"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="transform hover:scale-105 transition-transform"
-  >
-  <span
-      class="inline-flex items-center justify-center leading-none rounded-md overflow-hidden"
-    >
-    <img
-      src="/app-store-badge.svg"
-      alt="Download on App Store"
-      class="h-[50px] w-auto object-contain block"
-      loading="eager"
-    />  
-  </span>
-    
-  </a>
-  <a
-    href="https://play.google.com/store/apps/details?id=com.tinykite.communityhub"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="transform hover:scale-105 transition-transform"
-  >
-    <span
-      class="inline-flex items-center justify-center leading-none rounded-md overflow-hidden"
-    >
-    <img
-      src="/google-play-badge.svg"
-      alt="Get it on Google Play"
-      class="h-[60px] w-auto object-contain block"
-      loading="eager"
-    /> 
-  </span>
-    
-  </a>
-</div>
+              <a
+                id="appstore-link-mobile"
+                href="https://apps.apple.com/app/community-hub"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="transform hover:scale-105 transition-transform"
+              >
+              <span
+                  class="inline-flex items-center justify-center leading-none rounded-md overflow-hidden"
+                >
+                <img
+                  src="/app-store-badge.svg"
+                  alt="Download on App Store"
+                  class="h-[50px] w-auto object-contain block"
+                  loading="eager"
+                />  
+              </span>
+                
+              </a>
+              <a
+                id="playstore-link-mobile"
+                href="https://play.google.com/store/apps/details?id=com.tinykite.communityhub"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="transform hover:scale-105 transition-transform"
+              >
+                <span
+                  class="inline-flex items-center justify-center leading-none rounded-md overflow-hidden"
+                >
+                <img
+                  src="/google-play-badge.svg"
+                  alt="Get it on Google Play"
+                  class="h-[60px] w-auto object-contain block"
+                  loading="eager"
+                /> 
+              </span>
+                
+              </a>
+            </div>
 
             <!-- CTA Buttons -->
             <div class="flex flex-col gap-3">
@@ -374,8 +379,8 @@ import { apps } from "../data/apps";
 
     if (titleEl) titleEl.textContent = app.name;
     if (descEl) descEl.textContent = app.description;
-    if (appStoreLink && app.appStoreUrl) appStoreLink.href = app.appStoreUrl;
-    if (playStoreLink && app.playStoreUrl) playStoreLink.href = app.playStoreUrl;
+    if (appStoreLink) appStoreLink.href = app.appStoreUrl;
+    if (playStoreLink) playStoreLink.href = app.playStoreUrl;
     if (iphoneLabel) iphoneLabel.textContent = app.name;
     if (androidLabel) androidLabel.textContent = app.name;
 
@@ -387,8 +392,8 @@ import { apps } from "../data/apps";
 
     if (titleMobile) titleMobile.textContent = app.name;
     if (descMobile) descMobile.textContent = app.description;
-    if (appStoreLinkMobile && app.appStoreUrl) appStoreLinkMobile.href = app.appStoreUrl;
-    if (playStoreLinkMobile && app.playStoreUrl) playStoreLinkMobile.href = app.playStoreUrl;
+    if (appStoreLinkMobile) appStoreLinkMobile.href = app.appStoreUrl;
+    if (playStoreLinkMobile) playStoreLinkMobile.href = app.playStoreUrl;
 
   // Desktop indicators
 const desktopIndicators = document.querySelectorAll("[data-indicator-desktop]");
@@ -402,12 +407,15 @@ desktopIndicators.forEach((indicator, idx) => {
     indicator.classList.add("bg-gray-300", "dark:bg-gray-600");
   }
 });
-  desktopIndicators.forEach((indicator, idx) => {
-  indicator.addEventListener("click", () => {
-    currentAppIndex = idx;
-    scrollPhonesToIndex(currentAppIndex);
-    updateAppContentByIndex(currentAppIndex);
-  });
+ desktopIndicators.forEach((indicator, idx) => {
+      if (indicator._tkHandler) return; /* EDIT */
+      const handler = () => {
+        currentAppIndex = idx;
+        scrollPhonesToIndex(currentAppIndex);
+        updateAppContentByIndex(currentAppIndex);
+      };
+      indicator.addEventListener("click", handler);
+      indicator._tkHandler = handler; /* EDIT */
 });
 
 
@@ -521,13 +529,17 @@ desktopIndicators.forEach((indicator, idx) => {
     });
 
     // Optional: click indicators to jump to app (if you want)
-    const indicators = document.querySelectorAll("[data-indicator]");
+   const indicators = document.querySelectorAll("[data-indicator]");
     indicators.forEach((indicator, idx) => {
-      indicator.addEventListener("click", () => {
+      // --- EDIT: avoid attaching duplicate handlers on indicators ---
+      if (indicator._tkHandler) return; /* EDIT */
+      const handler = () => {
         currentAppIndex = idx;
         scrollPhonesToIndex(currentAppIndex);
         updateAppContentByIndex(currentAppIndex);
-      });
+      };
+      indicator.addEventListener("click", handler);
+      indicator._tkHandler = handler; /* EDIT */
     });
   }
 
@@ -585,6 +597,8 @@ startTypewriter(
 
 
 </script>
+
+
 
 <style>
   /* Hide scrollbar but keep functionality */
