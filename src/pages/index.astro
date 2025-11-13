@@ -61,7 +61,7 @@ import { apps } from "../data/apps";
             <h1
               class="text-5xl font-bold text-gray-900 dark:text-white mb-4 leading-tight"
             >
-              We innovate. We build.<br />We connect.
+                 <span id="typed-text"></span><span id="cursor">|</span>
             </h1>
             <p
               class="text-lg text-gray-600 dark:text-gray-400 max-w-lg mx-auto"
@@ -70,9 +70,9 @@ import { apps } from "../data/apps";
               that empower and inspire.
             </p>
           </div>
-
+        
           <!-- Dynamic App Showcase -->
-          <div
+<div
             class="bg-background/80 dark:bg-background-dark/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-dark-light"
           >
             <h2
@@ -137,6 +137,7 @@ import { apps } from "../data/apps";
               </a>
             </div>
           </div>
+
 
           <p
             class="text-sm text-gray-500 dark:text-gray-500 flex items-center justify-center gap-2"
@@ -209,9 +210,9 @@ import { apps } from "../data/apps";
         <div class="text-center space-y-6 max-w-md">
           <div>
             <h1
-              class="text-3xl font-bold text-gray-900 dark:text-white mb-4 leading-tight"
+              class="text-5xl font-bold text-gray-900 dark:text-white mb-4 leading-tight"
             >
-              We innovate.<br />We build.<br />We connect.
+              <span id="typed-text-mobile"></span><span id="cursor-mobile">|</span>
             </h1>
             <p class="text-base text-gray-600 dark:text-gray-400">
               TinyKite is a product studio crafting a seamless ecosystem of apps
@@ -479,6 +480,60 @@ import { apps } from "../data/apps";
       });
     });
   }
+
+  // related to the heading
+
+function startTypewriter(textEl, cursorEl) {
+  const phrases = ["We innovate.", "We build.", "We connect."];
+
+  if (!textEl || !cursorEl) return;
+
+  let phraseIndex = 0;
+  let charIndex = 0;
+  let deleting = false;
+
+  const typeSpeed = 100;
+  const eraseSpeed = 60;
+  const delayAfterFinish = 1000;
+
+  function loop() {
+    const current = phrases[phraseIndex];
+
+    if (!deleting) {
+      textEl.textContent = current.substring(0, charIndex++);
+      if (charIndex > current.length) {
+        deleting = true;
+        return setTimeout(loop, delayAfterFinish);
+      }
+    } else {
+      textEl.textContent = current.substring(0, charIndex--);
+      if (charIndex < 0) {
+        deleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+      }
+    }
+
+    setTimeout(loop, deleting ? eraseSpeed : typeSpeed);
+  }
+
+  loop();
+}
+
+// Desktop
+startTypewriter(
+  document.getElementById("typed-text"),
+  document.getElementById("cursor")
+);
+
+// Mobile
+startTypewriter(
+  document.getElementById("typed-text-mobile"),
+  document.getElementById("cursor-mobile")
+);
+
+
+
+
 </script>
 
 <style>
@@ -490,4 +545,17 @@ import { apps } from "../data/apps";
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  
+  #cursor {
+  display: inline-block;
+  margin-left: 2px;
+  animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+
 </style>
