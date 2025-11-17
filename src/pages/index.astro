@@ -6,7 +6,7 @@ import { apps } from "../data/apps";
 <Layout title="TinyKite - We innovate. We build. We connect.">
   <!-- Single Screen Hero - Fixed Height, No Page Scroll -->
   <div
-    class="fixed inset-0 overflow-hidden bg-background dark:bg-background-dark"
+    class="fixed inset-0 overflow-hidden bg-background dark:bg-background-dark z-0"
   >
     <!-- Desktop Layout -->
     <div class="hidden lg:flex h-full items-center justify-center px-8">
@@ -71,12 +71,11 @@ import { apps } from "../data/apps";
             </p>
           </div>
         
-          <!-- Dynamic App Showcase -->
           <!-- Improved Center Card -->
           <div
             id="center-card"
             class="w-full max-w-3xl mx-auto bg-white dark:bg-[#0b0b0b] rounded-2xl p-6 md:p-8 shadow-2xl border border-gray-100 dark:border-dark-light relative z-30
-                   max-h-[62vh] md:max-h-[52vh] overflow-auto"
+                  max-h-[62vh] md:max-h-[52vh] overflow-auto"
           >
             <!-- Title + description -->
             <div id="card-content-container" class="transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]">
@@ -89,73 +88,59 @@ import { apps } from "../data/apps";
                 </p>
               </div>
 
-              <!-- App store badges -->
-            <div class="flex justify-center items-center gap-3 mb-2 relative z-10 flex-wrap transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]">
-              <a
-                id="appstore-link"
-                href="https://apps.apple.com/app/community-hub"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="transform hover:scale-105 transition-transform"
-              >
-                <img
-                  src="/app-store-badge.svg"
-                  alt="Download on App Store"
-                  class="h-10 w-auto object-contain block"
-                  loading="eager"
-                />  
-              </a>
-              <a
-                id="playstore-link"
-                href="https://play.google.com/store/apps/details?id=com.tinykite.communityhub"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="transform hover:scale-105 transition-transform"
-              >
-                <img
-                  src="/google-play-badge.svg"
-                  alt="Get it on Google Play"
-                  class="h-10 w-auto object-contain block"
-                  loading="eager"
-                /> 
-              </a>
-            </div>
-
-              <!-- CTA Buttons: stacked on small, two columns on md+ -->
-              <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 items-stretch transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]">
+              <!-- App store badges - Centered with flexbox -->
+              <div class="flex justify-center items-center gap-3 mb-6 relative z-10 flex-wrap transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]">
                 <a
-                  
-                  href="/apps"
-                  class="flex items-center justify-center px-3 py-1 rounded-lg font-semibold text-white bg-gradient-to-r from-primary to-secondary shadow-md hover:opacity-95 transition-opacity
-                         w-full h-full"
+                  id="appstore-link"
+                  href="https://apps.apple.com/app/community-hub"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="transform hover:scale-105 transition-transform"
                 >
-                  Explore Our Apps → 
+                  <img
+                    src="/app-store-badge.svg"
+                    alt="Download on App Store"
+                    class="h-10 w-auto object-contain block"
+                    loading="eager"
+                  />  
                 </a>
-
                 <a
-                  href="/about"
-                  class="flex items-center justify-center px-3 py-1 rounded-lg font-semibold border-2 border-primary text-primary dark:text-primary bg-transparent hover:bg-primary hover:text-white transition-colors
-                         w-full h-full"
+                  id="playstore-link"
+                  href="https://play.google.com/store/apps/details?id=com.tinykite.communityhub"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="transform hover:scale-105 transition-transform"
                 >
-                  Request an App →
+                  <img
+                    src="/google-play-badge.svg"
+                    alt="Get it on Google Play"
+                    class="h-10 w-auto object-contain block"
+                    loading="eager"
+                  /> 
                 </a>
               </div>
+
+              <!-- CTA Buttons: stacked on small, two columns on md+ -->
+              <div class="flex flex-col gap-3">
+              <a
+                href="/apps"
+                class="px-4 py-2 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg text-center"
+              >
+                Explore Our Apps
+              </a>
+              <a
+                href="/about"
+                class="px-4 py-2 border-2 border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-colors text-center"
+              >
+                Learn Our Story →
+              </a>
+            </div>
             </div>
 
             <!-- optional small hint / footer inside card -->
-            <p class="text-xs text-gray-500 dark:text-gray-500 mt-4">Scroll the phone previews left/right to see screenshots</p>
-            <!-- Desktop Indicator Dots -->
-            <div id="desktop-indicators" class="hidden lg:flex justify-center mt-4 gap-2">
-              {apps.map((app, index) => (
-                <div
-                  class={`w-2 h-2 rounded-full transition-colors ${
-                    index === 0 ? "bg-gray-900 dark:bg-white" : "bg-gray-300 dark:bg-gray-600"
-                  }`}
-                  data-indicator-desktop={app.id}
-                />
-              ))}
-            </div>
+            
           </div>
+          <!-- ... rest of HTML ... -->
 
           <p class="text-sm text-gray-500 dark:text-gray-500 flex items-center justify-center gap-2">
             Scroll to see our portfolio
@@ -228,93 +213,93 @@ import { apps } from "../data/apps";
           </div>
 
           <!-- App Showcase -->
-          <div
-            class="bg-background/80 dark:bg-background-dark/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg relative"
-          >
-            <!-- Scroll Indicators -->
-            <div
-              class="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-10"
-            >
-              {
-                apps.map((app, index) => (
-                  <div
-                    class={`w-2 h-2 rounded-full transition-colors ${index === 0 ? "bg-gray-900 dark:bg-white" : "bg-gray-300 dark:bg-gray-600"}`}
-                    data-indicator={app.id}
-                  />
-                ))
-              }
-            </div>
-
-            <h2
-              id="app-title-mobile"
-              class="text-xl font-bold text-gray-900 dark:text-white mb-2"
-            >
-              Community Hub
-            </h2>
-            <p
-              id="app-description-mobile"
-              class="text-sm text-gray-600 dark:text-gray-400 mb-4"
-            >
-              Connect with like-minded individuals, join groups, and share
-              passions in a vibrant, safe space.
-            </p>
-
-            <!-- App Store Badges -->
-                        <!-- Mobile App Store Badges -->
-            <!-- Mobile App Store Badges -->
-<!-- App Store Badges (Mobile) -->
-<div class="flex justify-center items-center gap-4 mb-6 relative z-10 flex-wrap">
-  <a
-    id="appstore-link-mobile"
-    href="https://apps.apple.com/app/community-hub"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="transform hover:scale-105 transition-transform"
+          <!-- Mobile App Showcase Card -->
+<div
+  class="bg-background/80 dark:bg-background-dark/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg relative"
+>
+  <!-- Scroll Indicators -->
+  <div
+    class="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-10"
   >
-    <span class="inline-flex items-center justify-center leading-none rounded-md overflow-hidden">
-      <img
-        src="/app-store-badge.svg"
-        alt="Download on App Store"
-        class="h-[39px] w-auto object-contain block"
-        loading="eager"
-      />
-    </span>
-  </a>
-  <a
-    id="playstore-link-mobile"
-    href="https://play.google.com/store/apps/details?id=com.tinykite.communityhub"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="transform hover:scale-105 transition-transform"
-  >
-    <span class="inline-flex items-center justify-center leading-none rounded-md overflow-hidden">
-      <img
-        src="/google-play-badge.svg"
-        alt="Get it on Google Play"
-        class="h-[40px] w-auto object-contain block"
-        loading="eager"
-      />
-    </span>
-  </a>
+    {
+      apps.map((app, index) => (
+        <div
+          class={`w-2 h-2 rounded-full transition-colors ${index === 0 ? "bg-gray-900 dark:bg-white" : "bg-gray-300 dark:bg-gray-600"}`}
+          data-indicator={app.id}
+        />
+      ))
+    }
+  </div>
+
+  <!-- Mobile Card Content Container -->
+  <div id="card-content-container-mobile" class="transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]">
+    <h2
+      id="app-title-mobile"
+      class="text-xl font-bold text-gray-900 dark:text-white mb-2"
+    >
+      Community Hub
+    </h2>
+    <p
+      id="app-description-mobile"
+      class="text-sm text-gray-600 dark:text-gray-400 mb-4"
+    >
+      Connect with like-minded individuals, join groups, and share
+      passions in a vibrant, safe space.
+    </p>
+
+    <!-- Mobile App Store Badges -->
+    <div class="flex justify-center items-center gap-4 mb-6 relative z-10 flex-wrap">
+      <a
+        id="appstore-link-mobile"
+        href="https://apps.apple.com/app/community-hub"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transform hover:scale-105 transition-transform"
+      >
+        <span class="inline-flex items-center justify-center leading-none rounded-md overflow-hidden">
+          <img
+            src="/app-store-badge.svg"
+            alt="Download on App Store"
+            class="h-[39px] w-auto object-contain block"
+            loading="eager"
+          />
+        </span>
+      </a>
+      <a
+        id="playstore-link-mobile"
+        href="https://play.google.com/store/apps/details?id=com.tinykite.communityhub"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transform hover:scale-105 transition-transform"
+      >
+        <span class="inline-flex items-center justify-center leading-none rounded-md overflow-hidden">
+          <img
+            src="/google-play-badge.svg"
+            alt="Get it on Google Play"
+            class="h-[40px] w-auto object-contain block"
+            loading="eager"
+          />
+        </span>
+      </a>
+    </div>
+
+    <!-- CTA Buttons -->
+    <div class="flex flex-col gap-3">
+      <a
+        href="/apps"
+        class="px-4 py-2 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg text-center"
+      >
+        Explore Our Apps
+      </a>
+      <a
+        href="/about"
+        class="px-4 py-2 border-2 border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-colors text-center"
+      >
+        Learn Our Story →
+      </a>
+    </div>
+  </div>
 </div>
-
-            <!-- CTA Buttons -->
-            <div class="flex flex-col gap-3">
-              <a
-                href="/apps"
-                class="px-4 py-2 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-lg text-center"
-              >
-                Explore Our Apps
-              </a>
-              <a
-                href="/about"
-                class="px-4 py-2 border-2 border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-colors text-center"
-              >
-                Learn Our Story →
-              </a>
-            </div>
-          </div>
-
           <p
             class="text-sm text-gray-500 dark:text-gray-500 flex items-center justify-center gap-2"
           >
@@ -336,6 +321,28 @@ import { apps } from "../data/apps";
       </div>
     </div>
   </div>
+
+  <!-- SCROLL INDICATOR - MOBILE HIDDEN -->
+<div id="scroll-indicator-container" class="fixed right-8 bottom-8 z-50 flex flex-col items-center gap-3 opacity-100 translate-x-0 transition-all duration-500 lg:block hidden">
+  <div class="flex flex-col items-center gap-4">
+    <span class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider writing-mode-vertical rotate-180">
+      Scroll
+    </span>
+
+    <!-- Dots Navigation -->
+    <div id="scroll-indicator-dots" class="flex flex-col gap-3">
+      <!-- Dots will be populated by JavaScript -->
+    </div>
+
+    <!-- Animated Arrow -->
+    <div class="flex flex-col gap-1 animate-bounce">
+      <div class="w-[1px] h-6 bg-gradient-to-b from-primary to-transparent" />
+      <svg class="w-3 h-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+    </div>
+  </div>
+</div>
 </Layout>
 
 <script define:vars={{ apps }}>
@@ -379,7 +386,6 @@ import { apps } from "../data/apps";
 
     // Desktop indicators
     const desktopIndicators = document.querySelectorAll("[data-indicator-desktop]");
-
     desktopIndicators.forEach((indicator, idx) => {
       if (idx === index) {
         indicator.classList.remove("bg-gray-300", "dark:bg-gray-600");
@@ -391,21 +397,20 @@ import { apps } from "../data/apps";
     });
     
     desktopIndicators.forEach((indicator, idx) => {
-      if (indicator._tkHandler) return; /* EDIT */
+      if (indicator._tkHandler) return;
       const handler = () => {
         currentAppIndex = idx;
         scrollPhonesToIndex(currentAppIndex);
         updateAppContentByIndex(currentAppIndex);
       };
       indicator.addEventListener("click", handler);
-      indicator._tkHandler = handler; /* EDIT */
+      indicator._tkHandler = handler;
     });
 
-    // Indicators: compare by index (not by id)
+    // Mobile indicators
     const indicators = document.querySelectorAll("[data-indicator]");
     if (!indicators || indicators.length === 0) return;
 
-    // sanity: warn if counts mismatch with slides
     const iphoneContainer = document.getElementById("phone-scroll-container");
     if (iphoneContainer && indicators.length !== iphoneContainer.children.length) {
       console.warn("tinykite: indicator/slide count mismatch", indicators.length, iphoneContainer.children.length);
@@ -429,7 +434,6 @@ import { apps } from "../data/apps";
     const iphoneContainer = document.getElementById("phone-scroll-container");
     const androidContainer = document.getElementById("phone-scroll-container-android");
 
-    // Defensive: ensure children exist
     const iphoneChild = iphoneContainer?.children?.[index];
     const androidChild = androidContainer?.children?.[index];
 
@@ -441,9 +445,7 @@ import { apps } from "../data/apps";
       return;
     }
 
-    // Preferred: use scrollTo for consistent behavior if you control slide height
     if (iphoneContainer && iphoneChild) {
-      // smooth scroll to the child's offsetTop relative to container
       iphoneContainer.scrollTo({ top: iphoneChild.offsetTop, behavior: "smooth" });
     } else if (iphoneChild) {
       iphoneChild.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -460,17 +462,12 @@ import { apps } from "../data/apps";
   function animateCardTransition() {
     const cardContainer = document.getElementById('card-content-container');
     
-    // Apply scale and blur effect
     cardContainer.style.transform = 'scale(0.95)';
     cardContainer.style.filter = 'blur(2px)';
     cardContainer.style.opacity = '0.7';
     
-    // Wait for animation to complete
     setTimeout(() => {
-      // Update content
       updateAppContentByIndex(currentAppIndex);
-      
-      // Animate in new content with staggered effect
       cardContainer.style.transform = 'scale(1)';
       cardContainer.style.filter = 'blur(0)';
       cardContainer.style.opacity = '1';
@@ -481,48 +478,145 @@ import { apps } from "../data/apps";
   let scrollTimeout;
   let isScrolling = false;
   function handleWheel(e) {
-    // prevent default only if we can handle movement (avoid locking page scrolling)
     if (!appsData.length) return;
     e.preventDefault();
 
-    // Clear any existing timeout
-  if (scrollTimeout) {
-    clearTimeout(scrollTimeout);
-  }
-
-   // Handle the scroll immediately if not already scrolling
-  if (!isScrolling) {
-    isScrolling = true;
-    
-    // deltaY > 0 means scrolling DOWN, so go to next app
-    if (e.deltaY > 0 && currentAppIndex < appsData.length - 1) {
-      currentAppIndex++;
-    } else if (e.deltaY < 0 && currentAppIndex > 0) {
-      // deltaY < 0 means scrolling UP, so go to previous app
-      currentAppIndex--;
-    } else {
-      isScrolling = false;
-      return;
+    if (scrollTimeout) {
+      clearTimeout(scrollTimeout);
     }
 
-    scrollPhonesToIndex(currentAppIndex);
-    animateCardTransition();
+    if (!isScrolling) {
+      isScrolling = true;
+      
+      if (e.deltaY > 0 && currentAppIndex < appsData.length - 1) {
+        currentAppIndex++;
+      } else if (e.deltaY < 0 && currentAppIndex > 0) {
+        currentAppIndex--;
+      } else {
+        isScrolling = false;
+        return;
+      }
+
+      scrollPhonesToIndex(currentAppIndex);
+      animateCardTransition();
+    }
+
+    scrollTimeout = setTimeout(() => {
+      isScrolling = false;
+    }, 150);
   }
 
-  // Set timeout to allow scrolling again after a brief period
-  scrollTimeout = setTimeout(() => {
-    isScrolling = false;
-  }, 150); // Brief cooldown to prevent rapid changes
+  // --- SCROLL INDICATOR LOGIC ---
+  // REMOVED scrollIndicatorVisible variable since it's always visible now
+
+  function updateScrollIndicator() {
+    const container = document.getElementById('scroll-indicator-container');
+    const dotsContainer = document.getElementById('scroll-indicator-dots');
+
+    if (!container || !dotsContainer || appsData.length === 0) return;
+
+    // Update dot states
+    const dots = dotsContainer.querySelectorAll('.scroll-indicator-dot');
+    dots.forEach((dot, index) => {
+      if (index === currentAppIndex) {
+        dot.classList.remove('bg-gray-400', 'dark:bg-gray-600');
+        dot.classList.add('bg-blue-500', 'h-8', 'shadow-[0_0_12px_rgba(59,130,246,0.5)]');
+      } else {
+        dot.classList.remove('bg-blue-500', 'h-8', 'shadow-[0_0_12px_rgba(59,130,246,0.5)]');
+        dot.classList.add('bg-gray-400', 'dark:bg-gray-600', 'hover:bg-gray-600', 'dark:hover:bg-gray-400');
+      }
+    });
+
+    // Always visible - no visibility logic needed
+    container.classList.remove('opacity-0', 'translate-x-8');
+    container.classList.add('opacity-100', 'translate-x-0');
+  }
+
+  function initScrollIndicator() {
+    const dotsContainer = document.getElementById('scroll-indicator-dots');
+    if (!dotsContainer || appsData.length === 0) return;
+
+    // Clear existing dots
+    dotsContainer.innerHTML = '';
+
+    // Create new dots
+    appsData.forEach((_, index) => {
+      const dot = document.createElement('button');
+      dot.className = `scroll-indicator-dot w-2 h-2 rounded-full transition-all duration-300 ${index === currentAppIndex ? 'bg-blue-500 h-8 shadow-[0_0_12px_rgba(59,130,246,0.5)]' : 'bg-gray-400 dark:bg-gray-600 hover:bg-gray-600 dark:hover:bg-gray-400'}`;
+      dot.setAttribute('aria-label', `Go to section ${index + 1}`);
+      
+      dot.addEventListener('click', () => {
+        currentAppIndex = index;
+        scrollPhonesToIndex(currentAppIndex);
+        animateCardTransition();
+        updateScrollIndicator();
+      });
+      
+      dotsContainer.appendChild(dot);
+    });
+
+    // Always visible - no timeout needed
+    updateScrollIndicator();
+  }
+
+  // NEW: Function to detect current app index based on scroll position (for snap containers)
+  function getCurrentAppIndexFromScroll(container) {
+    if (!container) return currentAppIndex;
+    
+    const children = container.children;
+    const scrollTop = container.scrollTop;
+    const containerHeight = container.clientHeight;
+    
+    // Calculate which child is currently visible based on scroll position
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i];
+      const childTop = child.offsetTop;
+      const childHeight = child.clientHeight;
+      
+      // Check if this child is at the top of the container (snap position)
+      if (Math.abs(scrollTop - childTop) < 10) { // Allow small tolerance for smooth scrolling
+        return Math.min(i, appsData.length - 1);
+      }
+    }
+    
+    // Fallback: calculate index based on scroll position divided by container height
+    const calculatedIndex = Math.floor(scrollTop / containerHeight);
+    return Math.max(0, Math.min(calculatedIndex, appsData.length - 1));
+  }
+
+  // NEW: Scroll event handlers for phone containers
+  function handleIphoneScroll() {
+    const container = document.getElementById("phone-scroll-container");
+    if (!container) return;
+    
+    const newAppIndex = getCurrentAppIndexFromScroll(container);
+    if (newAppIndex !== currentAppIndex) {
+      currentAppIndex = newAppIndex;
+      updateAppContentByIndex(currentAppIndex);
+      updateScrollIndicator();
+    }
+  }
+
+  function handleAndroidScroll() {
+    const container = document.getElementById("phone-scroll-container-android");
+    if (!container) return;
+    
+    const newAppIndex = getCurrentAppIndexFromScroll(container);
+    if (newAppIndex !== currentAppIndex) {
+      currentAppIndex = newAppIndex;
+      updateAppContentByIndex(currentAppIndex);
+      updateScrollIndicator();
+    }
   }
 
   if (typeof window !== "undefined") {
-    // initialize UI
+    // Initialize UI
     updateAppContentByIndex(currentAppIndex);
+    initScrollIndicator(); // Initialize scroll indicator
 
-    // Wheel
+    // Event listeners
     window.addEventListener("wheel", handleWheel, { passive: false });
 
-    // Touch swipe
     let touchStartY = 0;
     let touchIsScrolling = false;
     window.addEventListener("touchstart", (e) => {
@@ -535,45 +629,54 @@ import { apps } from "../data/apps";
       const diff = touchStartY - touchY;
 
       if (Math.abs(diff) > 50 && !touchIsScrolling) {
-        // Prevent page scrolling during swipe
         e.preventDefault();
         touchIsScrolling = true;
 
         if (diff > 0 && currentAppIndex < appsData.length - 1) {
           currentAppIndex++;
           scrollPhonesToIndex(currentAppIndex);
-          animateCardTransition(); // Use new transition animation
+          animateCardTransition();
         } else if (diff < 0 && currentAppIndex > 0) {
           currentAppIndex--;
           scrollPhonesToIndex(currentAppIndex);
-          animateCardTransition(); // Use new transition animation
+          animateCardTransition();
         }
         touchStartY = touchY;
 
-        // Reset scrolling flag after a brief delay
         setTimeout(() => {
           touchIsScrolling = false;
         }, 150);
       }
-    },{ passive: false });
+    }, { passive: false });
 
-    // Optional: click indicators to jump to app (if you want)
+    // Mobile indicators
     const indicators = document.querySelectorAll("[data-indicator]");
     indicators.forEach((indicator, idx) => {
-      // --- EDIT: avoid attaching duplicate handlers on indicators ---
-      if (indicator._tkHandler) return; /* EDIT */
+      if (indicator._tkHandler) return;
       const handler = () => {
         currentAppIndex = idx;
         scrollPhonesToIndex(currentAppIndex);
-        animateCardTransition(); // Use new transition animation
+        animateCardTransition();
+        updateScrollIndicator(); // Update scroll indicator state
       };
       indicator.addEventListener("click", handler);
-      indicator._tkHandler = handler; /* EDIT */
+      indicator._tkHandler = handler;
     });
+
+    // NEW: Add scroll event listeners to phone containers
+    const iphoneContainer = document.getElementById("phone-scroll-container");
+    const androidContainer = document.getElementById("phone-scroll-container-android");
+    
+    if (iphoneContainer) {
+      iphoneContainer.addEventListener("scroll", handleIphoneScroll);
+    }
+    
+    if (androidContainer) {
+      androidContainer.addEventListener("scroll", handleAndroidScroll);
+    }
   }
 
-  // related to the heading
-
+  // Typewriter function
   function startTypewriter(textEl, cursorEl) {
     const phrases = ["We innovate.", "We build.", "We connect."];
 
@@ -610,17 +713,48 @@ import { apps } from "../data/apps";
     loop();
   }
 
-  // Desktop
   startTypewriter(
     document.getElementById("typed-text"),
     document.getElementById("cursor")
   );
 
-  // Mobile
   startTypewriter(
     document.getElementById("typed-text-mobile"),
     document.getElementById("cursor-mobile")
   );
+
+  // Card transition animation (for both desktop and mobile)
+function animateCardTransition() {
+  // Desktop card animation
+  const cardContainer = document.getElementById('card-content-container');
+  if (cardContainer) {
+    cardContainer.style.transform = 'scale(0.95)';
+    cardContainer.style.filter = 'blur(2px)';
+    cardContainer.style.opacity = '0.7';
+    
+    setTimeout(() => {
+      updateAppContentByIndex(currentAppIndex);
+      cardContainer.style.transform = 'scale(1)';
+      cardContainer.style.filter = 'blur(0)';
+      cardContainer.style.opacity = '1';
+    }, 250);
+  }
+  
+  // Mobile card animation
+  const mobileCardContainer = document.getElementById('card-content-container-mobile');
+  if (mobileCardContainer) {
+    mobileCardContainer.style.transform = 'scale(0.95)';
+    mobileCardContainer.style.filter = 'blur(2px)';
+    mobileCardContainer.style.opacity = '0.7';
+    
+    setTimeout(() => {
+      updateAppContentByIndex(currentAppIndex);
+      mobileCardContainer.style.transform = 'scale(1)';
+      mobileCardContainer.style.filter = 'blur(0)';
+      mobileCardContainer.style.opacity = '1';
+    }, 250);
+  }
+}
 </script>
 
 <style>
@@ -673,6 +807,29 @@ import { apps } from "../data/apps";
                 opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
- 
+  /* Scroll indicator specific styles */
+  #scroll-indicator-container {
+    /* Inherits styles from HTML */
+  }
 
+  /* Ensure indicator is always visible above other content */
+  #scroll-indicator-container {
+    z-index: 50 !important; /* Increased z-index */
+  }
+
+  /* Writing mode for vertical text (if supported) */
+  .writing-mode-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+  }
+
+  /* Card transition styles */
+#card-content-container,
+#card-content-container-mobile {
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+              filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
 </style>
